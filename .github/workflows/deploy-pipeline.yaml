@@ -45,16 +45,21 @@ jobs:
           name: zipped-bundle
           path: ${{ github.sha }}.zip
 
-    publish:
-      runs-on: ubuntu-latest
-      steps:
-        - name: create release
-          uses: actions/create-release@v1
-          env:
-            GITHUB_TOKEN: ${{ secrets.github_token }}
-          with: 
-            tag_name: ${{ github.run_number }}
-            release_name: Release from ${{ github.run_number }}
-            body: New release for ${{ github.sha }}
-            draft: false
-            prerelease: false
+    
+      publish:
+        runs-on: ubuntu-latest
+        steps:
+         - name: Checkout code
+           uses: actions/checkout@v3
+
+         - name: Create GitHub Release
+           uses: actions/create-release@v1
+           env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            with:
+              tag_name: ${{ github.run_number }}
+              release_name: Release from run ${{ github.run_number }}
+              body: New release for commit ${{ github.sha }}
+              draft: false
+              prerelease: false
+
